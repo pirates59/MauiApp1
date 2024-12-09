@@ -1,0 +1,43 @@
+﻿@page "/login"
+
+<h1>Counter</h1>
+
+<p>Message : @message</p>
+<button class="btn btn-primary" @onclick="CreateFloder">Create Folder</button>
+
+
+@code {
+    public string message = string.Empty;
+
+    private async Task CreateFloder()
+    {
+        try
+        {
+            string desktoppath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            string myFoler = Path.Combine(desktoppath, "Demo_dotnet_floder");
+
+            if (!Directory.Exists(myFoler))
+            {
+                Directory.CreateDirectory(myFoler);
+                message = "Floder Created SUcessfully";
+            }
+            else
+            {
+                message = "Folder already exists";
+            }
+
+            string filePath = Path.Combine(myFoler, "demo.txt");
+            if (!File.Exists(filePath))
+            {
+                File.WriteAllText(filePath, "Test file yeah");
+                message = "File Created Sucessfully";
+            }
+
+        }
+        catch (Exception ex)
+        {
+            message = $"Error{ex.Message}";
+        }
+    }
+}
